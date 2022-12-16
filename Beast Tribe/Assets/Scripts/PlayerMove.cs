@@ -6,6 +6,8 @@ public class PlayerMove : MonoBehaviour
 {
 
     private CharacterController charController;
+    private CharacterAnimations playerAnimations;
+   
     // Start is called before the first frame update
 
     public float movement_speed = 3f;
@@ -15,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     void Awake()
     {
         charController = GetComponent<CharacterController>();
+        playerAnimations = GetComponent<CharacterAnimations>();
     }
 
     // Update is called once per frame
@@ -22,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     {
         Move();
         Rotate();
+        AnimateWalk();
     }
 
     void Move() {
@@ -43,6 +47,10 @@ public class PlayerMove : MonoBehaviour
             moveDirection.y -= gravity * Time.deltaTime; // difference btw each frame delta time to smooth each frame
             charController.Move(moveDirection * movement_speed * Time.deltaTime);
 
+        }
+        else
+        {
+            charController.Move(Vector3.zero);
         }
 
     }
@@ -70,4 +78,17 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    void AnimateWalk()
+    {
+
+        
+        if (charController.velocity.sqrMagnitude != 0f) { 
+            playerAnimations.Walk(true);
+                }
+   else{
+            playerAnimations.Walk(false);
+
+    }
 }
+
+    }
